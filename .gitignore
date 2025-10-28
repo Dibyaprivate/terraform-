@@ -1,17 +1,12 @@
 # Local .terraform directories
-.terraform/
-
+**/.terraform/*
 # Terraform state files (contain sensitive data)
 terraform.tfstate
 terraform.tfstate.backup
 
 # Crash logs
 crash.log
-
-# Exclude all .tfvars files that may contain secrets
-*.tfvars
-*.tfvars.json
-
+*.log
 # Ignore override files
 override.tf
 override.tf.json
