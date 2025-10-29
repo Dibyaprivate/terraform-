@@ -23,3 +23,5 @@ override.tf.json
 *.pdf
 *.txt
 *.xlsx  
+# folders
+guru_ai_agent/
