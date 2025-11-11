@@ -1,0 +1,49 @@
+# Terraform .gitignore setup
+# === Terraform-specific files and directories ===
+.terraform/
+**/.terraform/*
+
+# State files (contain sensitive data)
+terraform.tfstate
+terraform.tfstate.backup
+
+# Crash logs
+crash.log
+*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Lock file (optional)
+.terraform.lock.hcl
+
+# Plan output files
+*.plan
+
+# === System & editor files ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Binary files ===
+*.exe
+*.zip
+*.tar.gz
+
+# === Documents (optional if you don’t want to upload notes/docs) ===
+*.docx
+*.pdf
+*.txt
+*.xlsx
+
+# === Custom folders to ignore ===
+guru_ai_agent/
+
+# === Git backup / misc ===
+*.bak
