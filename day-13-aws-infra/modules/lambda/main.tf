@@ -1,18 +1,36 @@
-variable "function_name" { type = string }
-variable "handler" { type = string }
-variable "runtime" { type = string }
-variable "filename" { type = string }
-variable "s3_bucket" { type = string, default = "" } # optional
+variable "function_name" {
+  type = string
+}
+
+variable "handler" {
+  type = string
+}
+
+variable "runtime" {
+  type = string
+}
+
+variable "filename" {
+  type = string
+}
+
+variable "s3_bucket" {
+  type    = string
+  default = "" # optional
+}
 
 # Lambda execution role
 resource "aws_iam_role" "lambda_role" {
   name = "${var.function_name}-role"
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
       Action = "sts:AssumeRole"
       Effect = "Allow"
-      Principal = { Service = "lambda.amazonaws.com" }
+      Principal = {
+        Service = "lambda.amazonaws.com"
+      }
     }]
   })
 }
@@ -22,7 +40,7 @@ resource "aws_iam_role_policy_attachment" "basic_exec" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-# Create Lambda function from local zip (if provided). If you prefer S3, upload zip and use s3_bucket/s3_key.
+# Lambda function
 resource "aws_lambda_function" "this" {
   filename         = var.filename
   function_name    = var.function_name
@@ -30,7 +48,6 @@ resource "aws_lambda_function" "this" {
   runtime          = var.runtime
   role             = aws_iam_role.lambda_role.arn
   source_code_hash = filebase64sha256(var.filename)
-  # environment { variables = {} }  # add if needed
 }
 
 output "lambda_arn" {

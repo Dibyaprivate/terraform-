@@ -3,11 +3,35 @@ variable "instance_type" {
 }
 
 variable "key_name" {
-  type = string
+  type    = string
   default = ""
 }
 
-# Simple security group allowing SSH (22) and HTTP (80)
+# lookup default VPC
+data "aws_vpc" "default" {
+  default = true
+}
+
+# FIXED: aws_subnet_ids -> aws_subnets
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
+}
+
+# Amazon Linux 2 AMI lookup
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
+}
+
+# Security group
 resource "aws_security_group" "this" {
   name        = "tf-ec2-sg"
   description = "Allow SSH and HTTP"
@@ -39,33 +63,16 @@ resource "aws_security_group" "this" {
   tags = { Name = "tf-ec2-sg" }
 }
 
-# lookup default VPC & subnet to keep module simple
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
-}
-
+# EC2 Instance
 resource "aws_instance" "this" {
-  ami           = data.aws_ami.amazon_linux.id
-  instance_type = var.instance_type
-  key_name      = var.key_name
-  subnet_id     = element(data.aws_subnet_ids.default.ids, 0)
-  vpc_security_group_ids = [aws_security_group.this.id]
+  ami                         = data.aws_ami.amazon_linux.id
+  instance_type               = var.instance_type
+  key_name                    = var.key_name
+  subnet_id                   = element(data.aws_subnets.default.ids, 0)
+  vpc_security_group_ids      = [aws_security_group.this.id]
 
   tags = {
     Name = "tf-ec2"
-  }
-}
-
-data "aws_ami" "amazon_linux" {
-  most_recent = true
-  owners      = ["amazon"]
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
 }
 

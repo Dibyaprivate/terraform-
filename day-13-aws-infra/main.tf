@@ -37,8 +37,8 @@ module "lambda" {
   function_name = var.lambda_function_name
   handler       = var.lambda_handler
   runtime       = var.lambda_runtime
-  s3_bucket     = module.s3.bucket_name   # Lambda can reference S3 if you upload code there; not required for filename method below
-  filename      = var.lambda_filename     # local zip path e.g. "lambda/lambda.zip"
+  s3_bucket     = module.s3.bucket_name # Lambda can reference S3 if you upload code there; not required for filename method below
+  filename      = var.lambda_filename   # local zip path e.g. "lambda/lambda.zip"
 }
 
 module "eventbridge" {
