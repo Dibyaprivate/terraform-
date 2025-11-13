@@ -23,10 +23,10 @@ resource "aws_s3_bucket_versioning" "versioning" {
 }
 
 # Optional ACL - new providers require separate resource
-resource "aws_s3_bucket_acl" "bucket_acl" {
-  bucket = aws_s3_bucket.this.id
-  acl    = "private"
-}
+# resource "aws_s3_bucket_acl" "bucket_acl" {
+#   bucket = aws_s3_bucket.this.id
+#   acl    = "private"
+# }
 
 output "bucket_name" {
   value = aws_s3_bucket.this.bucket

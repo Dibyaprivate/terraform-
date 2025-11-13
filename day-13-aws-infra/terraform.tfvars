@@ -1,7 +1,7 @@
 region               = "us-east-1"
-bucket_name          = "my-unique-terraform-demo-bucket-12345" # must be globally unique
+bucket_name          = "my-unique-terraform-demo-bucket-123457yetr" # must be globally unique
 instance_type        = "t3.micro"
-key_name             = "my-existing-keypair"
+key_name             = "banty"
 db_name              = "demo_db"
 db_username          = "admin"
 db_password          = "Admin1234!"
