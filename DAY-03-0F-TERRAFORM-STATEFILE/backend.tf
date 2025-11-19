@@ -6,6 +6,6 @@ terraform {
     key            = "day03/terraform.tfstate"
     region         = "ap-south-1"
     encrypt        = true
-    sensitive_file = true
+   # sensitive_file = true   <-- commented out
   }
 }
